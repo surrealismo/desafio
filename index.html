@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Desafío 1</title>
+    <link rel="stylesheet" type="text/css" href="../estilo.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.dom.min.js"></script>
+    <meta charset="utf-8">
+    <style>
+    html,
+    body {
+        margin: 0;
+        padding: 0;
+    }
+
+    canvas {
+        display: block;
+    }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <a href="#" class="actual">Revista UTE</a>
+        <a href="../desafio-02/index.html">ICVU 2019</a>
+        <a href="../desafio-03/index.html">PSU/NEM</a>
+        <a href="../desafio-04/index.html">DESEMPLEO</a>
+        <a href="../desafio-05/index.html">CALENTAMIENTO GLOBAL</a>
+    </nav>
+</body>
+<script>
+var data; 
+var h;   
+var img;    
+var cont = 0;
+var factor;
+var vfijos = {
+    "Entradas": ['Educativa', 'Política-Ideológica', 'Económica-Productiva', 'Cientíca-Tecnológica', 'Cultural', 'Territorial-Cono Sur'],
+    
+    "Indole": ['UTE', 'Nacional', 'Latinoamérica', 'Internacional'],
+    
+    "TipoArticulo": ['Editorial', 'Ensayo', 'Documentos', 'Notas Bibliográficas', 'Crónica Universitaria']
+}
+
+function preload() {
+    data = loadJSON('https://api.myjson.com/bins/ywvkb');
+    console.log(data);
+    console.log(vfijos);
+    img = loadImage('https://raw.githubusercontent.com/surrealismo/images/master/rev10.png');}
+    
+  
+
+function setup() {
+    createCanvas(windowWidth, windowHeight);
+    selector = createSelect();
+    selector.position(width - 170, 20);
+    selector.option('Entradas', 0);
+    selector.option('Índole', 1);
+    selector.option('Tipo de artículo', 2);
+    selector.changed(f);
+   
+    //constante();
+    noLoop(); 
+
+    for (var x = 0; x < 12; x++) {
+        textAlign(CENTER);
+        textSize(10);
+        text(data[x].revista, 100 + (x * 125), height - 160, 150);
+        textSize(8);
+        text(data[x].fecha, 100 + (x * 125), height - 140, 150);
+    }
+    
+
+
+}
+    
+
+function draw() {
+    var opcion = selector.value();
+    textStyle(BOLD);
+    textSize(15);
+    textAlign(LEFT);
+
+
+    if (opcion == 0) {
+        text('Analisis de Contenido: Entradas', 80, 100);
+        textStyle(NORMAL);
+        textSize(12);
+        for (var i = 0; i < 6; i++) {
+            text(vfijos.Entradas[i], 40, 180 + (40 * i), 120);
+        }
+        for (var k = 0; k < 12; k++) {
+            for (var i = 0; i < 6; i++) {
+                console.log(data[k].entradas[i]);
+                rect(175 + (125 * k), 180 + (40 * i), (data[k].entradas[i]) * 8, 10);
+         
+            }
+        }
+
+
+    } else if (opcion == 1) {
+        text('Analisis de Contenido: Índole', 100, 100);
+        textStyle(NORMAL);
+        textSize(12);
+        for (var i = 0; i < 6; i++) {
+            text(vfijos.Indole[i], 40, 180 + (40 * i));
+        }
+        for (var k = 0; k < 12; k++) {
+            for (var i = 0; i < 4; i++) {
+                console.log(data[k].indole[i]);
+                rect(175 + (125 * k), 165 + (40 * i), (data[k].indole[i]) * 8, 10);
+
+            }
+        }
+
+    } else {
+        text('Analisis de Contenido: Tipo de Artículo', 100, 100);
+        textStyle(NORMAL);
+        textSize(12);
+        for (var i = 0; i < 5; i++) {
+            text(vfijos.TipoArticulo[i], 40, 180 + (40 * i));
+        }
+        for (var k = 0; k < 12; k++) {
+            for (var i = 0; i < 6; i++) {
+                console.log(data[k].tipo[i]);
+                rect(175 + (125 * k), 165 + (40 * i), (data[k].tipo[i]) * 8, 10);
+
+            }
+        }
+    }
+
+
+
+
+
+
+}
+
+
+function f() {
+    clear();
+    redraw();
+    for (var x = 0; x < 12; x++) {
+        textAlign(CENTER);
+        textSize(10);
+        text(data[x].revista, 100 + (x * 125), height - 160, 150);
+        textSize(8);
+        text(data[x].fecha, 100 + (x * 125), height - 140, 150);
+  
+        
+    }
+}
+</script>
+
+</html>
